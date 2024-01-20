@@ -13,6 +13,6 @@ export default function Layout() {
 
 const styles = StyleSheet.create({
     scrollView: {
-      backgroundColor: "#ffffff", // Defina a cor de fundo desejada
+      backgroundColor: "#ffffff", 
     },
   });
