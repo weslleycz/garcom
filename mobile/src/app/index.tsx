@@ -1,9 +1,16 @@
-import { Link, router } from "expo-router";
-import { Box } from "native-base";
-import { useFocusEffect } from "expo-router";
+import * as Notifications from "expo-notifications";
+import { router, useFocusEffect } from "expo-router";
 import { useCallback } from "react";
+import { Image, ScrollView, StyleSheet } from "react-native";
 import { Database } from "../services/db";
-import { ScrollView, StyleSheet, Image } from "react-native";
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: false,
+    shouldSetBadge: false,
+  }),
+});
 
 export default function Page() {
   useFocusEffect(
@@ -13,6 +20,8 @@ export default function Page() {
         const token = await db.getItem("token");
         if (!token) {
           setTimeout(() => router.replace("/auth"), 1000);
+        } else {
+          setTimeout(() => router.replace("/home"), 1000);
         }
       })();
     }, [])

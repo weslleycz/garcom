@@ -1,10 +1,7 @@
-import React, { useState } from "react";
-import {
-  AntDesign,
-  FontAwesome,
-  Ionicons,
-  MaterialIcons,
-} from "@expo/vector-icons";
+import { FontAwesome, Ionicons, MaterialIcons } from "@expo/vector-icons";
+import JWT from "expo-jwt";
+import * as Notifications from "expo-notifications";
+import { router } from "expo-router";
 import {
   Box,
   Button,
@@ -12,12 +9,20 @@ import {
   HStack,
   Icon,
   Input,
-  Text,
   VStack,
   WarningOutlineIcon,
 } from "native-base";
+import React, { useState } from "react";
 import { TouchableOpacity } from "react-native";
 import { Database } from "../../services/db";
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: false,
+    shouldSetBadge: false,
+  }),
+});
 
 export default function Page() {
   const [name, setName] = useState("");
@@ -58,8 +63,27 @@ export default function Page() {
 
   const submit = async () => {
     if (validateFields()) {
-      console.log({ name, email, telefone });
       const db = new Database();
+      // await db.setItem("user", { name, email, telefone });
+      const jwt = JWT.encode({ email }, "token");
+      await db.setItem("token", { jwt });
+
+      const token = await db.getItem("token");
+      
+      const { status } = await Notifications.getPermissionsAsync();
+      
+      await Notifications.scheduleNotificationAsync({
+        content: {
+          title: "Seja bem vindo 👋",
+        },
+        trigger: {
+          seconds: 1,
+          channelId: 'bem-vindo',
+        },
+      });
+
+      router.replace("/home");
+     // await db.clear();
     }
   };
 
