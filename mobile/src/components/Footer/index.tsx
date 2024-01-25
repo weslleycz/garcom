@@ -65,7 +65,7 @@ export const Footer = () => {
                 alignItems: "center",
                 borderRadius: 50,
                 position: "relative",
-                top: -25,
+                top: -20,
               }}
               onPress={playSound}
             >

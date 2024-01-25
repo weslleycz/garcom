@@ -1,10 +1,12 @@
-import { ScrollView,StyleSheet } from "react-native";
+import { ScrollView, StyleSheet } from "react-native";
 import { Footer } from "../../components/Footer";
 import { Slot } from "expo-router";
+import { Header } from "../../components/Header";
 
 export default function Layout() {
   return (
     <>
+      <Header />
       <ScrollView style={styles.scrollView}>
         <Slot />
       </ScrollView>
@@ -14,7 +16,7 @@ export default function Layout() {
 }
 
 const styles = StyleSheet.create({
-    scrollView: {
-      backgroundColor: "#e9e9e9", // Defina a cor de fundo desejada
-    },
-  });
+  scrollView: {
+    backgroundColor: "#e9e9e9",
+  },
+});
